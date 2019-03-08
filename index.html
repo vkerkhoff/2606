@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="format-detection" content="telephone=no"/>
     <title>Suzanne & Vladimir trouwen op 26 juni 2019</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://fonts.googleapis.com/css?family=Patrick+Hand" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
     <style>
         body, html {
             height: 100%;
@@ -25,6 +33,15 @@
             opacity: 29%;
         }
 
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .block{
+            padding: 10px
+        }
+
         .intro{
             font-size: 26pt;
             padding-top: 30px;
@@ -34,14 +51,21 @@
             padding-top: 5px;
             text-align: center;
          }
+
         .extrapad {
             padding-top:25px !important;
+            padding-bottom: 50px;
+        }
+        #successform {
+            display: none;
+            padding-top: 80px;
+            text-align: center;
         }
     </style>
 </head>
 
-<body>
-<div class="bg">
+<body class="bg">
+<div class="container">
     <div class="intro">
         <span>Suzanne van Geemen</span>
         <span>&</span>
@@ -49,11 +73,105 @@
 
         <span class="extrapad">26 juni 2019</span>
     </div>
+
+
+    <div class="content">
+        <div class="block">
+            Op 26 juni 2019 geven wij elkaar het ja-woord, graag maken wij het een onvergetelijke dag met jullie samen. Graag horen wij of je hierbij aanwezig bent, vul hiervoor het onderstaande formulier in.
+        </div>
+        <div class="block">
+            <div id="enterform">
+                <form class="pure-form" id="form">
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <label for="naam">Naam:</label>
+                            <input id="naam" class="pure-input-1" type="text" placeholder="naam" required>
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="email">E-mailadres:</label>
+                            <input id="email" class="pure-input-1" type="email" placeholder="Email Address" required>
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="aantal">Aantal personen:</label>
+                            <input id="aantal" class="pure-input-1" type="text" placeholder="">
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="erbij" class="pure-checkbox">Wij zijn aanwezig bij:</label>
+                            <span id="erbij">
+                                <input id="ceremonie" type="checkbox"> Ceremonie &nbsp;&nbsp;&nbsp;
+                                <input id="toost" type="checkbox"> Toost met Taart &nbsp;&nbsp;&nbsp;
+                                <input id="feest" type="checkbox"> Feest &nbsp;&nbsp;&nbsp;
+                            </span>
+                        </div>
+
+                        <button type="submit" class="pure-button pure-button-primary">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="successform">Leuk dat je erbij bent en tot 26 juni!</div>
+        </div>
+    </div>
 </div>
 
-<div class="content">
+<script>
+    function postToGoogle() {
+        var name = $('#naam').val();
+        var email = $('#email').val();
+        var aantal = $('#aantal').val();
+        var ceremonie = 'Nee';
+        if ($('#ceremonie').is(":checked"))
+        {
+            var ceremonie = 'Ja';
+        }
 
-</div>
+        var toost = 'Nee';
+        if ($('#toost').is(":checked"))
+        {
+            var toost = 'Ja';
+        }
+
+        var feest = 'Nee';
+        if ($('#feest').is(":checked"))
+        {
+            var feest = 'Ja';
+        }
+
+        $.ajax({
+            url: "https://docs.google.com/forms/d/e/1FAIpQLSd6DafVghWIaYhvEzgBbIsbx1Oz_9XSWoTSV94Eek9ABvM9FA/formResponse",
+            data: {
+                "entry.1578432448": name,
+                "entry.1353721080": email,
+                "entry.1844824445": aantal,
+                "entry.1189630956": ceremonie,
+                "entry.142109321": toost,
+                "entry.428564458": feest
+            },
+            type: "POST",
+            dataType: "xml",
+            statusCode: {
+                0: function() {
+                    //Success message
+                },
+                200: function() {
+
+                }
+            }
+        });
+    }
+
+    $(document).ready(function() {
+       $('#form').submit(function() {
+         postToGoogle();
+         $('#enterform').hide();
+         $('#successform').show();
+         return false;
+       });
+
+    });
+</script>
+
 </body>
-
 </html>
