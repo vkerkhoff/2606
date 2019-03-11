@@ -17,7 +17,7 @@
     <!--<![endif]-->
     <style>
         body, html {
-            height: 100%;
+            min-height: 100%;
             margin:0;
             padding: 0;
             font-family: 'Patrick Hand', cursive;
@@ -25,7 +25,7 @@
 
         .bg {
             background-image: url("background.jpg");
-            height: 100%;
+            min-height: 100%;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -90,12 +90,7 @@
                             <label for="naam">Naam:</label>
                             <input id="naam" class="pure-input-1" type="text" placeholder="Naam" required>
                         </div>
-
-                        <div class="pure-control-group">
-                            <label for="email">E-mailadres:</label>
-                            <input id="email" class="pure-input-1" type="email" placeholder="E-mailadres" required>
-                        </div>
-
+                        
                         <div class="pure-control-group">
                             <label for="aantal">Aantal personen:</label>
                             <input id="aantal" class="pure-input-1" type="text" placeholder="">
@@ -123,7 +118,6 @@
 <script>
     function postToGoogle() {
         var name = $('#naam').val();
-        var email = $('#email').val();
         var aantal = $('#aantal').val();
         var ceremonie = 'Nee';
         if ($('#ceremonie').is(":checked"))
@@ -147,7 +141,6 @@
             url: "https://docs.google.com/forms/d/e/1FAIpQLSd6DafVghWIaYhvEzgBbIsbx1Oz_9XSWoTSV94Eek9ABvM9FA/formResponse",
             data: {
                 "entry.1578432448": name,
-                "entry.1353721080": email,
                 "entry.1844824445": aantal,
                 "entry.1189630956": ceremonie,
                 "entry.142109321": toost,
